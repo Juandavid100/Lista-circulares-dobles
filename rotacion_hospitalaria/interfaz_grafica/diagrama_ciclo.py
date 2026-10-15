@@ -178,7 +178,7 @@ class DiagramaDelCiclo(tk.Canvas):
         separacion = 9 if cantidad > 2 else 16
 
         for indice, servicio in enumerate(servicios):
-            siguiente = servicios[(indice + 1) % cantidad]
+            servicio_proximo = servicios[(indice + 1) % cantidad]
             origen, destino = posiciones[indice], posiciones[(indice + 1) % cantidad]
 
             # Enlace al próximo servicio: por fuera, en el sentido de la rotación.
@@ -194,7 +194,7 @@ class DiagramaDelCiclo(tk.Canvas):
             # Enlace al servicio previo: por dentro, en sentido contrario.
             trazo = self._trazo_entre(destino, origen, cx, cy, ancho, alto, -separacion, 0.04)
             if trazo:
-                destacado = siguiente is servicio_destacado
+                destacado = servicio_proximo is servicio_destacado
                 self.create_line(
                     trazo, smooth=True, arrow=tk.LAST, arrowshape=(10, 12, 4),
                     width=2.4 if destacado else 1.4,
