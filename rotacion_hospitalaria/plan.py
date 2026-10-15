@@ -101,7 +101,7 @@ class PlanDeRotacion:
         """Agrega un servicio y lo vuelve la puerta de entrada al plan."""
         nuevo = self.agregar_al_final(nombre, semanas)
         # En una lista circular el "inicio" es solo la referencia de entrada.
-        # El servicio quedó justo antes del ingreso anterior, así que basta
+        # El servicio quedó justo antes del ingreso que había, así que basta
         # con mover la referencia.
         self.servicio_de_ingreso = nuevo
         return nuevo
@@ -110,9 +110,9 @@ class PlanDeRotacion:
         self, nombre_servicio: str, nombre: str, semanas: int
     ) -> ServicioHospitalario:
         """Agrega un servicio inmediatamente después de otro que ya está en el plan."""
-        anterior_en_plan = self.obtener_servicio(nombre_servicio)
+        servicio_referencia = self.obtener_servicio(nombre_servicio)
         nuevo = self._crear_servicio(nombre, semanas)
-        self._enlazar_entre(nuevo, anterior_en_plan, anterior_en_plan.proximo_servicio)
+        self._enlazar_entre(nuevo, servicio_referencia, servicio_referencia.proximo_servicio)
         return nuevo
 
     # ------------------------------------------------------------------ remoción
