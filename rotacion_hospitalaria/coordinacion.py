@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from .plan import PlanDeRotacion
+from .plan import PlanDeRotacion, PlanVacioError
 from .residente import Residente
 from .servicio import ServicioHospitalario
 
@@ -21,7 +21,8 @@ class CoordinacionDeResidentes:
 
     def registrar_residente(self, nombre: str, servicio_inicial: str | None = None) -> Residente:
         """Registra un residente en el servicio indicado o en el de ingreso."""
-        self.plan._exigir_servicios()
+        if self.plan.esta_vacio():
+            raise PlanVacioError("Agrega al menos un servicio antes de registrar residentes.")
         clave = nombre.strip().lower()
         if clave in self._residentes:
             raise ValueError(f"El residente '{nombre.strip()}' ya está registrado.")
