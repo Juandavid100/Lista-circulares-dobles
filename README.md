@@ -2,7 +2,7 @@
 
 Taller de **Estructuras de Datos**. Universidad Cooperativa de Colombia, sede Pasto.
 
-Caso de estudio implementado en **Python**, con una **interfaz por consola** para manipular la estructura.
+Caso de estudio implementado en **Python**, con dos interfaces para manipular la estructura: una **ventana gráfica** y un **menú por consola**.
 
 ---
 
@@ -159,13 +159,33 @@ while True:
 
 ## 3. Ejecución
 
-Requiere **Python 3.10 o superior**. No usa librerías externas.
+Requiere **Python 3.10 o superior**. No usa librerías externas: la interfaz gráfica usa **Tkinter**, que viene incluido con Python en Windows.
+
+### Interfaz gráfica
+
+```bash
+python main_grafico.py
+```
+
+La ventana tiene tres zonas:
+
+| Zona | Para qué sirve |
+|---|---|
+| **Izquierda** | Agregar servicios al final, como ingreso o después de otro servicio; cerrar el servicio seleccionado; registrar residentes |
+| **Centro** | El plan dibujado como un anillo. Las flechas verdes por fuera son los enlaces al **próximo servicio** y las grises punteadas por dentro, los enlaces al **servicio previo**. Cada residente aparece como una ficha con sus iniciales sobre su servicio. Al hacer clic en un servicio se seleccionan sus enlaces |
+| **Derecha** | Tabla de residentes, ficha del residente seleccionado (de dónde viene, dónde está, hacia dónde va), botones para rotar, devolver o retirar, y la **bitácora** con cada movimiento |
+
+El botón **Cargar plan de ejemplo** llena el plan con 6 servicios y 6 residentes para hacer una demostración rápida. **Cerrar periodo y rotar a todos** mueve a todos los residentes a su próximo servicio, como al final de un periodo académico.
+
+Al seleccionar un residente, el diagrama resalta su servicio, la flecha hacia su próximo servicio y la flecha que llega desde su servicio previo: así se ven en acción los dos enlaces de la lista circular doble.
+
+### Interfaz por consola
 
 ```bash
 python main.py
 ```
 
-### Menú
+#### Menú
 
 ```
 ╔═══════════════════════════════════════════════╗
@@ -189,7 +209,7 @@ python main.py
 ╚═══════════════════════════════════════════════╝
 ```
 
-### Ejemplo de uso
+#### Ejemplo de uso
 
 ```
   ✓ Medicina Interna es ahora el servicio de ingreso.
@@ -218,22 +238,28 @@ python main.py
 python -m unittest -v
 ```
 
-Las 21 pruebas verifican, después de cada operación, que **todos los enlaces son recíprocos** (`s.proximo_servicio.servicio_previo is s`) y que el plan sigue siendo circular. También prueban los casos límite: plan vacío, un solo servicio, cierre del servicio de ingreso y reubicación de residentes.
+Las 22 pruebas verifican, después de cada operación, que **todos los enlaces son recíprocos** (`s.proximo_servicio.servicio_previo is s`) y que el plan sigue siendo circular. También prueban los casos límite: plan vacío, un solo servicio, cierre del servicio de ingreso y reubicación de residentes.
 
 ---
 
 ## 4. Estructura del proyecto
 
 ```
-├── main.py                        # Punto de entrada
+├── main_grafico.py                 # Abre la interfaz gráfica
+├── main.py                         # Abre el menú por consola
 ├── rotacion_hospitalaria/
-│   ├── servicio.py                # ServicioHospitalario: el elemento de la lista
-│   ├── plan.py                    # PlanDeRotacion: la lista circular doble
-│   ├── residente.py               # Residente: se mueve dentro del plan
-│   ├── coordinacion.py            # CoordinacionDeResidentes: une plan y residentes
-│   └── interfaz_consola.py        # Menú interactivo
+│   ├── servicio.py                 # ServicioHospitalario: el elemento de la lista
+│   ├── plan.py                     # PlanDeRotacion: la lista circular doble
+│   ├── residente.py                # Residente: se mueve dentro del plan
+│   ├── coordinacion.py             # CoordinacionDeResidentes: une plan y residentes
+│   ├── datos_ejemplo.py            # Plan de ejemplo para demostraciones
+│   ├── interfaz_consola.py         # Menú interactivo por consola
+│   └── interfaz_grafica/
+│       ├── tema.py                 # Colores y tipografía
+│       ├── diagrama_ciclo.py       # Dibujo del anillo de servicios
+│       └── ventana.py              # Ventana principal
 └── tests/
     └── test_rotacion.py           # Pruebas unitarias
 ```
 
-El código separa la **estructura de datos** (`plan.py`), la **lógica del negocio** (`residente.py`, `coordinacion.py`) y la **interfaz** (`interfaz_consola.py`). Así, el mismo plan podría usarse más adelante con una interfaz gráfica o web sin cambiar la lógica.
+El código separa la **estructura de datos** (`plan.py`), la **lógica del negocio** (`residente.py`, `coordinacion.py`) y las **interfaces** (`interfaz_consola.py` e `interfaz_grafica/`). Las dos interfaces usan exactamente la misma lista circular doble: ninguna duplica la lógica.
