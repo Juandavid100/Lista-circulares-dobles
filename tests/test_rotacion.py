@@ -182,5 +182,20 @@ class TestResidentes(unittest.TestCase):
             self.coordinacion.rotar_residente("Laura")
 
 
+class TestPlanDeEjemplo(unittest.TestCase):
+    def test_cargar_plan_de_ejemplo_reemplaza_el_contenido(self):
+        from rotacion_hospitalaria.datos_ejemplo import (
+            RESIDENTES_DE_EJEMPLO, SERVICIOS_DE_EJEMPLO, cargar_plan_de_ejemplo)
+
+        coordinacion = CoordinacionDeResidentes()
+        coordinacion.plan.agregar_al_final("Dermatología", 2)
+        coordinacion.registrar_residente("Previo")
+        cargar_plan_de_ejemplo(coordinacion)
+
+        self.assertEqual(nombres(coordinacion.plan.recorrer_hacia_adelante()),
+                         [nombre for nombre, _ in SERVICIOS_DE_EJEMPLO])
+        self.assertEqual(len(coordinacion.residentes), len(RESIDENTES_DE_EJEMPLO))
+
+
 if __name__ == "__main__":
     unittest.main()
