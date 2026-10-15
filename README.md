@@ -4,6 +4,29 @@ Taller de **Estructuras de Datos**. Universidad Cooperativa de Colombia, sede Pa
 
 Caso de estudio implementado en **Python**, con dos interfaces para manipular la estructura: una **ventana gráfica** y un **menú por consola**.
 
+## ▶ Abrir la interfaz
+
+Solo necesitas **Python 3.10 o superior**. No hay que instalar ninguna librería.
+
+**Opción rápida en Windows**
+1. Descarga el proyecto: botón verde **Code → Download ZIP**, y descomprímelo.
+2. Haz doble clic en **`abrir_interfaz.bat`**.
+
+**Desde la terminal** (Windows, macOS o Linux)
+```bash
+git clone https://github.com/Juandavid100/Lista-circulares-dobles.git
+cd Lista-circulares-dobles
+python main_grafico.py
+```
+
+En la ventana, presiona **Cargar plan de ejemplo** para ver el ciclo con 6 servicios y 6 residentes. Luego selecciona un residente en la tabla: el diagrama resalta su enlace al **próximo servicio** y el que llega desde su **servicio previo**.
+
+| Para… | Ejecuta |
+|---|---|
+| La interfaz gráfica | `python main_grafico.py` |
+| El menú por consola | `python main.py` |
+| Las pruebas | `python -m unittest -v` |
+
 ---
 
 ## 1. Caso de estudio
